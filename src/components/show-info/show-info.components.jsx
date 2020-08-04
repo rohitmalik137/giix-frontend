@@ -9,8 +9,15 @@ class ShowInfo extends Component {
 
     this.state = {
       files: '',
+      customName: null,
+      id: null,
     };
   }
+
+  handleUpdate = (name, id) => {
+    axios.post('http://localhost:5000/files/updatename', { name, id });
+    this.forceUpdate();
+  };
 
   componentDidMount() {
     this.callAPI();
@@ -31,8 +38,10 @@ class ShowInfo extends Component {
           <thead>
             <tr>
               <th>FileName</th>
+              <th>CustomName</th>
               <th>Path</th>
               <th>CreatedAt</th>
+              <th>Edit</th>
             </tr>
           </thead>
           <tbody>
@@ -41,8 +50,24 @@ class ShowInfo extends Component {
                   return (
                     <tr key={data._id}>
                       <td>{data.files}</td>
+                      <td>{data.customName}</td>
                       <td>{data.filePath}</td>
                       <td>{data.createdAt}</td>
+                      <td
+                        onClick={() => {
+                          const name = prompt('Enter Custom File Name');
+                          if (name) {
+                            // this.setState({
+                            //   customName: name,
+                            //   id: data._id,
+                            // });
+                            this.handleUpdate(name, data._id);
+                          }
+                        }}
+                        className="edit"
+                      >
+                        Edit
+                      </td>
                     </tr>
                   );
                 })

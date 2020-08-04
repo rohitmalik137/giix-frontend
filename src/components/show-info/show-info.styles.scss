@@ -1,8 +1,15 @@
 table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
-  width: 100%;
-  margin: 50px auto;
+  width: 90%;
+  margin: auto;
+  margin-top: 25px;
+
+  .edit,
+  .edit:visited {
+    cursor: pointer;
+    color: blue;
+  }
 
   td,
   th {

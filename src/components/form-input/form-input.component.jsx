@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import './form-input.styles.scss';
 import axios from 'axios';
+import CustomButton from '../custom-button/custom-button.component';
 
 class FormInput extends Component {
   constructor(props) {
@@ -27,19 +28,19 @@ class FormInput extends Component {
       .post('http://localhost:5000/files/upload', formData, {})
       .then((res) => {
         console.log(res.data);
+        alert('uploaded!');
       });
   };
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <div className="form-group">
+      <form className="form" onSubmit={this.handleSubmit}>
+        <div>
           <input type="file" onChange={this.handleChange} multiple />
         </div>
-        <div className="form-group">
-          <button className="btn btn-primary" type="submit">
-            Upload
-          </button>
+        <hr />
+        <div className="button">
+          <CustomButton isGoogleSignIn> Upload </CustomButton>
         </div>
       </form>
     );
