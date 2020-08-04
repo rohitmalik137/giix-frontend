@@ -24,19 +24,31 @@ class ShowInfo extends Component {
   }
 
   render() {
-    console.log(this.state.files);
+    // console.log(this.state.files);
     return (
       <div>
-        <h1>hello</h1>
-        {/* {this.state.files !== '' ? this.state.files[0].files[0] : null} */}
-        {this.state.files !== ''
-          ? this.state.files.map((data) => {
-              return data.files.map((subData) => {
-                return <h3>{subData}</h3>;
-              });
-            })
-          : null}
-        <h1>there!</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>FileName</th>
+              <th>Path</th>
+              <th>CreatedAt</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.files !== ''
+              ? this.state.files.map((data) => {
+                  return (
+                    <tr key={data._id}>
+                      <td>{data.files}</td>
+                      <td>{data.filePath}</td>
+                      <td>{data.createdAt}</td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
       </div>
     );
   }
