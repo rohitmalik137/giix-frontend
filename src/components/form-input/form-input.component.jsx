@@ -10,7 +10,29 @@ class FormInput extends Component {
 
     this.state = {
       files: '',
+      filess: '',
+      customName: null,
+      id: null,
     };
+  }
+
+  handleUpdate = (name, id) => {
+    axios.post('files/updatename', { name, id });
+  };
+
+  componentDidMount() {
+    this.callAPI();
+  }
+
+  componentDidUpdate() {
+    this.callAPI();
+  }
+
+  callAPI() {
+    axios.get('files').then((res) => {
+      //   console.log(res.data.files);
+      this.setState({ filess: res.data.files });
+    });
   }
 
   handleChange = (event) => {
@@ -25,24 +47,72 @@ class FormInput extends Component {
       formData.append('filesArray', this.state.files[key]);
     }
     axios
-      .post('http://localhost:5000/files/upload', formData, {})
+      .post('files/upload', formData, {})
       .then((res) => {
         console.log(res.data);
         alert('uploaded!');
+      })
+      .then(() => {
+        document.getElementById('myForm').reset();
+      })
+      .catch((error) => {
+        document.getElementById('myForm').reset();
+        alert('please upload .pdf or .txt files only');
       });
   };
 
   render() {
     return (
-      <form className="form" onSubmit={this.handleSubmit}>
-        <div>
-          <input type="file" onChange={this.handleChange} multiple />
-        </div>
+      <div>
+        <form className="form" onSubmit={this.handleSubmit} id="myForm">
+          <div>
+            <input type="file" onChange={this.handleChange} multiple />
+          </div>
+          <hr />
+          <div className="button">
+            <CustomButton isGoogleSignIn> Upload </CustomButton>
+          </div>
+        </form>
         <hr />
-        <div className="button">
-          <CustomButton isGoogleSignIn> Upload </CustomButton>
+        <div>
+          <table>
+            <thead>
+              <tr>
+                <th>FileName</th>
+                <th>CustomName</th>
+                <th>Path</th>
+                <th>CreatedAt</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.filess !== ''
+                ? this.state.filess.map((data) => {
+                    return (
+                      <tr key={data._id}>
+                        <td>{data.files}</td>
+                        <td>{data.customName}</td>
+                        <td>{data.filePath}</td>
+                        <td>{data.createdAt}</td>
+                        <td
+                          onClick={() => {
+                            const name = prompt('Enter Custom File Name');
+                            if (name) {
+                              this.handleUpdate(name, data._id);
+                            }
+                          }}
+                          className="edit"
+                        >
+                          Edit
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
         </div>
-      </form>
+      </div>
     );
   }
 }

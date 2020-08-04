@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
 import FormInput from './components/form-input/form-input.component';
-import ShowInfo from './components/show-info/show-info.components';
+// import ShowInfo from './components/show-info/show-info.components';
 
-function App() {
-  return (
-    <div className="App">
-      <FormInput />
-      <ShowInfo />
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div className="App">
+        <FormInput />
+        {/* <ShowInfo /> */}
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -16,7 +16,6 @@ class ShowInfo extends Component {
 
   handleUpdate = (name, id) => {
     axios.post('http://localhost:5000/files/updatename', { name, id });
-    this.forceUpdate();
   };
 
   componentDidMount() {
@@ -57,10 +56,6 @@ class ShowInfo extends Component {
                         onClick={() => {
                           const name = prompt('Enter Custom File Name');
                           if (name) {
-                            // this.setState({
-                            //   customName: name,
-                            //   id: data._id,
-                            // });
                             this.handleUpdate(name, data._id);
                           }
                         }}
